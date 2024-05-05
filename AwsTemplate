@@ -1,0 +1,209 @@
+---
+Metadata:
+  TemplateId: "arn:aws:cloudformation:eu-north-1:211125671700:generatedTemplate/e8c0bb45-36cc-409e-9773-716ecc9b17db"
+Parameters:
+  awsExampleManagedPolicyParameterOne:
+    Type: String
+    Description: 'ARN of the first IAM Managed Policy to add to the role'
+Resources:
+  RootRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Path: /
+      ManagedPolicyArns:
+        - !Ref awsExampleManagedPolicyParameterOne
+  EC2Volume00vol07c906a05969b6cf600TlWdL:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Volume"
+    DeletionPolicy: "Retain"
+    Properties:
+      MultiAttachEnabled: false
+      SnapshotId: "snap-0bcc89611de92de4a"
+      VolumeType: "gp3"
+      Encrypted: false
+      Size: 8
+      AutoEnableIO: true
+      AvailabilityZone: "eu-north-1a"
+      Throughput: 125
+      Iops: 3000
+      Tags: []
+  EC2Subnet00subnet093830f5c54d9e31200qaTkU:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Subnet"
+    DeletionPolicy: "Retain"
+    Properties:
+      VpcId:
+        Ref: "EC2VPC00vpc0455831331c85501d00GxvbH"
+      MapPublicIpOnLaunch: true
+      EnableDns64: false
+      AvailabilityZoneId: "eun1-az1"
+      PrivateDnsNameOptionsOnLaunch:
+        EnableResourceNameDnsARecord: false
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      CidrBlock: "172.31.16.0/20"
+      Ipv6Native: false
+      Tags: []
+  EC2SecurityGroup00sg069decf4a9c02a79b00teiXR:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::SecurityGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      GroupDescription: "launch-wizard-1 created 2024-05-03T10:06:50.386Z"
+      GroupName: "launch-wizard-1"
+      VpcId:
+        Ref: "EC2VPC00vpc0455831331c85501d00GxvbH"
+      SecurityGroupIngress:
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 80
+        ToPort: 80
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 22
+        ToPort: 22
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "tcp"
+        FromPort: 443
+        ToPort: 443
+      SecurityGroupEgress:
+      - CidrIp: "0.0.0.0/0"
+        IpProtocol: "-1"
+        FromPort: -1
+        ToPort: -1
+  EC2VolumeAttachment00vol07c906a05969b6cf600n2R5f:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VolumeAttachment"
+    DeletionPolicy: "Retain"
+    Properties:
+      InstanceId: "i-0b8e5f2d7ba71af4d"
+      VolumeId: "vol-07c906a05969b6cf6"
+      Device: "/dev/xvda"
+  EC2Instance00i0b8e5f2d7ba71af4d00OrgZH:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::Instance"
+    DeletionPolicy: "Retain"
+    Properties:
+      Tenancy: "default"
+      SecurityGroups:
+      - "launch-wizard-1"
+      PrivateIpAddress: "172.31.21.119"
+      InstanceInitiatedShutdownBehavior: "stop"
+      CpuOptions:
+        ThreadsPerCore: 2
+        CoreCount: 1
+      BlockDeviceMappings:
+      - Ebs:
+          SnapshotId: "snap-0bcc89611de92de4a"
+          VolumeType: "gp3"
+          Iops: 3000
+          VolumeSize: 8
+          Encrypted: false
+          DeleteOnTermination: true
+        DeviceName: "/dev/xvda"
+      AvailabilityZone: "eu-north-1a"
+      PrivateDnsNameOptions:
+        EnableResourceNameDnsARecord: true
+        HostnameType: "ip-name"
+        EnableResourceNameDnsAAAARecord: false
+      SubnetId:
+        Ref: "EC2Subnet00subnet093830f5c54d9e31200qaTkU"
+      SecurityGroupIds:
+      - "sg-069decf4a9c02a79b"
+      EbsOptimized: true
+      DisableApiTermination: false
+      KeyName: "sample key pair"
+      SourceDestCheck: true
+      Volumes:
+      - VolumeId: "vol-07c906a05969b6cf6"
+        Device: "/dev/xvda"
+      PlacementGroupName: ""
+      VpcId: "vpc-0455831331c85501d"
+      NetworkInterfaces:
+      - PrivateIpAddresses:
+        - PrivateIpAddress: "172.31.21.119"
+          Primary: true
+        SecondaryPrivateIpAddressCount: 0
+        DeviceIndex: "0"
+        GroupSet:
+        - Ref: "EC2SecurityGroup00sg069decf4a9c02a79b00teiXR"
+        Ipv6Addresses: []
+        SubnetId:
+          Ref: "EC2Subnet00subnet093830f5c54d9e31200qaTkU"
+        AssociatePublicIpAddress: true
+        NetworkInterfaceId:
+          Ref: "EC2NetworkInterface00eni0f959c292658351e800IBzsB"
+        DeleteOnTermination: true
+      ImageId: "ami-03c3351e3ce9d04eb"
+      InstanceType: "t3.micro"
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+          . ~/.nvm/nvm.sh
+          nvm install node
+          yum update -y
+          yum install -y git
+          curl --silent --location https://rpm.nodesource.com/setup_14.x | bash -
+          yum install -y nodejs
+          git clone https://github.com/yeshwanthlm/nodejs-on-ec2.git
+          cd nodejs-on-ec2
+          npm install
+          npm start
+      Monitoring: false
+      Tags:
+      - Value: "NodeJs-demo"
+        Key: "Name"
+      CreditSpecification:
+        CPUCredits: "unlimited"
+  EC2VPC00vpc0455831331c85501d00GxvbH:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::VPC"
+    DeletionPolicy: "Retain"
+    Properties:
+      CidrBlock: "172.31.0.0/16"
+      EnableDnsSupport: true
+      InstanceTenancy: "default"
+      EnableDnsHostnames: true
+      Tags: []
+  EC2KeyPair00samplekeypair00jDWI5:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::KeyPair"
+    DeletionPolicy: "Retain"
+    Properties:
+      KeyName: "sample key pair"
+      KeyType: "rsa"
+      PublicKeyMaterial: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCD1Y0G2BG5ehQwKYXTwkdR0L60FZSNlTEzP+pMCvTJJmeR42q0pTKyAzZj0v1/ExkevJRQqaOSykChtT3VK94uszuVnnzyCGqR5pbivUWDbWhI/5mVJplK8GqsbPOrxDLshXR8goRjYf7BDiMBNogviNCbmrBMtZI46u6B7qhLEMIGRbhS6AaqRxKdZesvbvqmVQc9lv/a14K/rIlTijbGz2OZuLmKLaDWCwRWE2jmIrRU1l7+IwYmgSnY+pu/NarF8ktzTsEqLn4kDJ67VfAvWW82MDi+34m8d0BMvWLxAwP+jOMWZkgcfsxtvW/7y9sOBSDPAUWqRJY0mIJAIDQd\
+        \ sample key pair\n"
+      Tags: []
+  EC2NetworkInterface00eni0f959c292658351e800IBzsB:
+    UpdateReplacePolicy: "Retain"
+    Type: "AWS::EC2::NetworkInterface"
+    DeletionPolicy: "Retain"
+    Properties:
+      Description: ""
+      PrivateIpAddress: "172.31.21.119"
+      PrivateIpAddresses:
+      - PrivateIpAddress: "172.31.21.119"
+        Primary: true
+      SecondaryPrivateIpAddressCount: 0
+      Ipv6PrefixCount: 0
+      Ipv4Prefixes: []
+      Ipv4PrefixCount: 0
+      GroupSet:
+      - "sg-069decf4a9c02a79b"
+      Ipv6Prefixes: []
+      SubnetId:
+        Ref: "EC2Subnet00subnet093830f5c54d9e31200qaTkU"
+      SourceDestCheck: true
+      InterfaceType: "interface"
+      Tags: []
