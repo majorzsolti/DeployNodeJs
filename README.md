@@ -1,4 +1,4 @@
-#Task description
+# Task description
 
 You get a Node.js application from the Engineering team and your task is to deploy that application to the Cloud (AWS, Azure or GCP) in a
 scalable fashion.
