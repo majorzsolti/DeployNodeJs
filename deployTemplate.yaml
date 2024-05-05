@@ -1,26 +1,16 @@
----
-Metadata:
-  TemplateId: "arn:aws:cloudformation:eu-north-1:211125671700:generatedTemplate/e8c0bb45-36cc-409e-9773-716ecc9b17db"
-Parameters:
-  awsExampleManagedPolicyParameterOne:
-    Type: String
-    Description: 'ARN of the first IAM Managed Policy to add to the role'
 Resources:
-  RootRole:
-    Type: 'AWS::IAM::Role'
+  MyIAMRole:
+    Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
-              Service:
-                - ec2.amazonaws.com
-            Action:
-              - 'sts:AssumeRole'
-      Path: /
-      ManagedPolicyArns:
-        - !Ref awsExampleManagedPolicyParameterOne
+              Service: 
+                - codebuild.amazonaws.com
+            Action: 'sts:AssumeRole'
+      RoleName: GithubConnecting
   EC2Volume00vol07c906a05969b6cf600TlWdL:
     UpdateReplacePolicy: "Retain"
     Type: "AWS::EC2::Volume"
