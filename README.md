@@ -27,10 +27,9 @@ Template to Cloudformation stack to launch & connect to EC2 instance, set parame
 Template to Cloudformation stack to create&update Auto Sacling Group with Launch template 
 
 ### You can use any Cloud technology/service to create a scalable deployment: please explain why you chose that technology!
-  -> I choose AWS because my original plan was utilize Elastik Beanstalk with cloudformation templates. With a Load balancer and asg it would met the requirements of scaleability, and also cost efficiency 
-  In the end I ran out of time, so I created a cloudformation template to deploy the application on a single ic, and another to create an asg. 
-  To avoid going over my free account I set the asg limits to pretty low. 
+I choose AWS because my plan was utilize Elastik Beanstalk with cloudformation templates. With a Load balancer and asg it would met the requirements of scaleability, and also cost efficiency 
+I also wanted to create a fully IaC version only using CloudFormation templates, but I ran out of time. Still I attached the small amount of progress here. 
 
 ### Briefly explain how to deploy and update your infrastructure
-  The infrastructure is located in a Github Repository. This repo can be added to the CloudFormation stack in the Git sync option. It is of course also possible to update the templete on the GUI interface. 
+  The infrastructure is located in a Github Repository. This repo is added to the CloudFormation stack in the Git sync option. It is of course also possible to update the templete on the GUI interface. 
   To automatize the deployment of the node.js application a simple CodeDeploy application with a corresponding pipeline could dynamically push the application if we put it into an S3 bucket 
