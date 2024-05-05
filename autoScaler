@@ -1,0 +1,35 @@
+Resources:
+  AutoScalingAutoScalingGroup00myasg00maj9e:
+    UpdatePolicy:
+      AutoScalingRollingUpdate:
+        MinInstancesInService: 1
+        MaxBatchSize: 1
+        PauseTime: PT5M
+        WaitOnResourceSignals: true
+    # UpdateReplacePolicy: "Delete"
+    Type: "AWS::AutoScaling::AutoScalingGroup"
+    DeletionPolicy: "Retain"
+    Properties:
+      LoadBalancerNames: []
+      ServiceLinkedRoleARN: "arn:aws:iam::211125671700:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+      TargetGroupARNs: []
+      Cooldown: "300"
+      AvailabilityZones:
+      - "eu-north-1a"
+      DesiredCapacity: "1"
+      HealthCheckGracePeriod: 300
+      MetricsCollection: []
+      MaxSize: "2"
+      NewInstancesProtectedFromScaleIn: false
+      MinSize: "1"
+      TerminationPolicies:
+      - "Default"
+      LaunchTemplate:
+        Version: "2"
+        LaunchTemplateName: "my-template-for-auto-scaling"
+        LaunchTemplateId: "lt-00995aadaa3908cf3"
+      AutoScalingGroupName: "my-asg"
+      VPCZoneIdentifier:
+      - "subnet-093830f5c54d9e312"
+      Tags: []
+      HealthCheckType: "EC2"
