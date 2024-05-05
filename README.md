@@ -1,4 +1,5 @@
-Task description: 
+Task description
+
 You get a Node.js application from the Engineering team and your task is to deploy that application to the Cloud (AWS, Azure or GCP) in a
 scalable fashion.
 For this exercise, you may choose any non-trivial Node.js application that implements a REST API.
